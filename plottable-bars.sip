@@ -140,6 +140,18 @@ public:
     sipCpp->setSelection(current_selection);
     Py_END_ALLOW_THREADS
 %End
+
+protected:
+  // reimplemented virtual methods:
+  virtual void draw(QCPPainter *painter);
+  virtual void drawLegendIcon(QCPPainter *painter, const QRectF &rect) const;
+  
+  // non-virtual methods:
+//  void getVisibleDataBounds(QCPBarsDataContainer::const_iterator &begin, QCPBarsDataContainer::const_iterator &end) const;  // not implemented
+  QRectF getBarRect(double key, double value) const;
+  void getPixelWidth(double key, double &lower, double &upper) const;
+  double getStackedBaseValue(double key, bool positive) const;
+  static void connectBars(QCPBars* lower, QCPBars* upper);
 };
 
 

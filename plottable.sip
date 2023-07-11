@@ -39,7 +39,7 @@ public:
 };
 
 
-class QCPAbstractPlottable : public QCPLayerable /Abstract/
+class QCPAbstractPlottable : public QCPLayerable
 {
 %TypeHeaderCode
 #include <QCustomPlot/src/plottable.h>
@@ -76,8 +76,8 @@ public:
   // introduced virtual methods:
   virtual double selectTest(const QPointF &pos, bool onlySelectable, QVariant *details=0) const = 0;
   virtual QCPPlottableInterface1D *interface1D();
-  virtual QCPRange getKeyRange(bool &foundRange, QCP::SignDomain inSignDomain=QCP::sdBoth) const = 0;
-  virtual QCPRange getValueRange(bool &foundRange, QCP::SignDomain inSignDomain=QCP::sdBoth, const QCPRange &inKeyRange=QCPRange()) const = 0;
+  virtual QCPRange getKeyRange(bool &foundRange /Out/, QCP::SignDomain inSignDomain=QCP::sdBoth) const = 0;
+  virtual QCPRange getValueRange(bool &foundRange /Out/, QCP::SignDomain inSignDomain=QCP::sdBoth, const QCPRange &inKeyRange=QCPRange()) const = 0;
 
   // non-property methods:
   const QPointF coordsToPixels(double key, double value) const;
@@ -95,4 +95,21 @@ signals:
   void selectionChanged(bool selected);
   void selectionChanged(const QCPDataSelection &selection);
   void selectableChanged(QCP::SelectionType selectable);
+
+protected:
+  // reimplemented virtual methods:
+  virtual QRect clipRect() const;
+  virtual void draw(QCPPainter *painter) = 0;
+  virtual QCP::Interaction selectionCategory() const;
+  void applyDefaultAntialiasingHint(QCPPainter *painter) const;
+  // events:
+  virtual void selectEvent(QMouseEvent *event, bool additive, const QVariant &details, bool *selectionStateChanged /Out/);
+  virtual void deselectEvent(bool *selectionStateChanged /Out/);
+  
+  // introduced virtual methods:
+  virtual void drawLegendIcon(QCPPainter *painter, const QRectF &rect) const = 0;
+  
+  // non-virtual methods:
+  void applyFillAntialiasingHint(QCPPainter *painter) const;
+  void applyScattersAntialiasingHint(QCPPainter *painter) const;
 };

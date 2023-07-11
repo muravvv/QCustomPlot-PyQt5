@@ -211,7 +211,7 @@ public:
 };
 
 
-class QCPAbstractItem : public QCPLayerable /Abstract/
+class QCPAbstractItem : public QCPLayerable
 {
 %TypeHeaderCode
 #include <QCustomPlot/src/item.h>
@@ -245,4 +245,22 @@ public:
 signals:
   void selectionChanged(bool selected);
   void selectableChanged(bool selectable);
+
+protected:
+  // reimplemented virtual methods:
+  virtual QCP::Interaction selectionCategory() const;
+  virtual QRect clipRect() const;
+  virtual void applyDefaultAntialiasingHint(QCPPainter *painter) const;
+  virtual void draw(QCPPainter *painter) = 0;
+  // events:
+  virtual void selectEvent(QMouseEvent *event, bool additive, const QVariant &details, bool *selectionStateChanged);
+  virtual void deselectEvent(bool *selectionStateChanged);
+  
+  // introduced virtual methods:
+  virtual QPointF anchorPixelPosition(int anchorId) const;
+  
+  // non-virtual methods:
+  double rectDistance(const QRectF &rect, const QPointF &pos, bool filledRect) const;
+  QCPItemPosition *createPosition(const QString &name);
+  QCPItemAnchor *createAnchor(const QString &name, int anchorId);
 };

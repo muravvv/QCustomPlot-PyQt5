@@ -77,6 +77,16 @@ public:
   
   // reimplemented virtual methods:
   virtual double selectTest(const QPointF &pos, bool onlySelectable, QVariant *details=0) const;
+
+protected:
+  // introduced virtual methods:
+  virtual int calculateAutoMargin(QCP::MarginSide side);
+  virtual void layoutChanged();
+  
+  // reimplemented virtual methods:
+  virtual void applyDefaultAntialiasingHint(QCPPainter *painter) const;
+  virtual void draw(QCPPainter *painter);
+  virtual void parentPlotInitialized(QCustomPlot *parentPlot);
 };
 
 
@@ -104,6 +114,18 @@ public:
   bool removeAt(int index);
   bool remove(QCPLayoutElement* element);
   void clear();
+
+protected:
+  // introduced virtual methods:
+  virtual void updateLayout();
+  
+  // non-virtual methods:
+  void sizeConstraintsChanged() const;
+  void adoptElement(QCPLayoutElement *el);
+  void releaseElement(QCPLayoutElement *el);
+  QVector<int> getSectionSizes(QVector<int> maxSizes, QVector<int> minSizes, QVector<double> stretchFactors, int totalSize) const;
+  static QSize getFinalMinimumOuterSize(const QCPLayoutElement *el);
+  static QSize getFinalMaximumOuterSize(const QCPLayoutElement *el);
 };
 
 

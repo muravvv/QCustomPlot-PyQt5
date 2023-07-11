@@ -37,7 +37,7 @@ public:
   void replot();
 };
 
-class QCPLayerable : public QObject /Abstract/
+class QCPLayerable : public QObject
 {
 %TypeHeaderCode
 #include <QCustomPlot/src/layer.h>
@@ -67,5 +67,29 @@ public:
   
 signals:
   void layerChanged(QCPLayer *newLayer);
+
+protected:
+  // introduced virtual methods:
+  virtual void parentPlotInitialized(QCustomPlot *parentPlot);
+  virtual QCP::Interaction selectionCategory() const;
+  virtual QRect clipRect() const;
+  virtual void applyDefaultAntialiasingHint(QCPPainter *painter) const = 0;
+  virtual void draw(QCPPainter *painter) = 0;
+  // selection events:
+  virtual void selectEvent(QMouseEvent *event, bool additive, const QVariant &details, bool *selectionStateChanged /Out/);
+  virtual void deselectEvent(bool *selectionStateChanged /Out/);
+  // low-level mouse events:
+  virtual void mousePressEvent(QMouseEvent *event, const QVariant &details);
+  virtual void mouseMoveEvent(QMouseEvent *event, const QPointF &startPos);
+  virtual void mouseReleaseEvent(QMouseEvent *event, const QPointF &startPos);
+  virtual void mouseDoubleClickEvent(QMouseEvent *event, const QVariant &details);
+  virtual void wheelEvent(QWheelEvent *event);
+  
+  // non-property methods:
+  void initializeParentPlot(QCustomPlot *parentPlot);
+  void setParentLayerable(QCPLayerable* parentLayerable);
+  bool moveToLayer(QCPLayer *layer, bool prepend);
+  void applyAntialiasingHint(QCPPainter *painter, bool localAntialiased, QCP::AntialiasedElement overrideElement) const;
+  
 };
  

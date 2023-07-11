@@ -104,4 +104,24 @@ public:
     sipCpp->setSelection(current_selection);
     Py_END_ALLOW_THREADS
 %End
+
+protected:
+  // reimplemented virtual methods:
+  virtual void draw(QCPPainter *painter);
+  virtual void drawLegendIcon(QCPPainter *painter, const QRectF &rect) const;
+  
+  // introduced virtual methods:
+  virtual void drawCurveLine(QCPPainter *painter, const QVector<QPointF> &lines) const;
+  virtual void drawScatterPlot(QCPPainter *painter, const QVector<QPointF> &points, const QCPScatterStyle &style) const;
+  
+  // non-virtual methods:
+  void getCurveLines(QVector<QPointF> *lines, const QCPDataRange &dataRange, double penWidth) const;
+  void getScatters(QVector<QPointF> *scatters, const QCPDataRange &dataRange, double scatterWidth) const;
+  int getRegion(double key, double value, double keyMin, double valueMax, double keyMax, double valueMin) const;
+  QPointF getOptimizedPoint(int prevRegion, double prevKey, double prevValue, double key, double value, double keyMin, double valueMax, double keyMax, double valueMin) const;
+  QVector<QPointF> getOptimizedCornerPoints(int prevRegion, int currentRegion, double prevKey, double prevValue, double key, double value, double keyMin, double valueMax, double keyMax, double valueMin) const;
+  bool mayTraverse(int prevRegion, int currentRegion) const;
+  bool getTraverse(double prevKey, double prevValue, double key, double value, double keyMin, double valueMax, double keyMax, double valueMin, QPointF &crossA, QPointF &crossB) const;
+  void getTraverseCornerPoints(int prevRegion, int currentRegion, double keyMin, double valueMax, double keyMax, double valueMin, QVector<QPointF> &beforeTraverse, QVector<QPointF> &afterTraverse) const;
+//  double pointDistance(const QPointF &pixelPoint, QCPCurveDataContainer::const_iterator &closestData) const;  // not implemented
 };
