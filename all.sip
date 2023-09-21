@@ -55,11 +55,11 @@ QCustomPlot Website/Contact: http://www.qcustomplot.com
 //#include "plottables/plottable-errorbar.h"
 %Include item-straightline.sip
 //#include "items/item-line.h"
-//#include "items/item-curve.h"
-//#include "items/item-rect.h"
-//#include "items/item-text.h"
-//#include "items/item-ellipse.h"
-//#include "items/item-pixmap.h"
+%Include item-curve.sip
+%Include item-rect.sip
+%Include item-text.sip
+%Include item-ellipse.sip
+%Include item-pixmap.sip
 //#include "items/item-tracer.h"
-//#include "items/item-bracket.h"
+%Include item-bracket.sip
 
