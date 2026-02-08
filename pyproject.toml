@@ -1,0 +1,30 @@
+# Specify sip v6 as the build system for the package.
+[build-system]
+requires = ["sip >=6, <7", "PyQt-builder"]
+build-backend = "sipbuild.api"
+
+# Specify the PEP 566 metadata for the project.
+[project]
+name = "QCustomPlot"
+#version = # set in project.py
+dependencies = ["PyQt5"]
+
+#[tool.sip]
+#project-factory = "pyqtbuild:PyQtProject" # selected in project.py
+
+[tool.sip.builder]
+qmake-settings = ["DEFINES += QCUSTOMPLOT_USE_OPENGL"]
+
+#qmake = "" # set if build system cannot find it automatically
+
+# Specify each set of bindings.
+[tool.sip.bindings.QCustomPlot]
+sip-file = "all.sip"
+include-dirs = ["."]
+qmake-QT = ["core", "gui", "widgets", "printsupport", "opengl"]
+
+# Configure the project itself.
+[tool.sip.project]
+sip-files-dir = "."
+
+#sip-include-dirs = [] # set path to the Qt bindings if build system cannot find them automatically
