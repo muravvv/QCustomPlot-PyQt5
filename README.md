@@ -1,6 +1,11 @@
 # QCustomPlot-PyQt5
 Bindings for graphics lib QCustomPlot for PyQt5.
 
+## In this fork:
+  - Build system is upgraded to recent sip versions, obsolate `sipconfig` is not needed anymore
+  - Added a possibility to create own plottables and items as Python classes (added bindings for all protected members)
+  - Added wrappers to `QCPItemBracket`, `QCPItemCurve`, `QCPItemEllipse`, `QCPItemPixmap`, `QCPItemRect` and `QCPItemText`
+
 ## Requirements:
   - PyQt5
   - sip
@@ -13,12 +18,9 @@ Bindings for graphics lib QCustomPlot for PyQt5.
 Currently QCustomPlot is statically linked and downloaded as GIT submodule.
 
   - git submodule update --init
-  - python setup.py build && sudo python setup.py install
-
-## Arguments for build_ext option:
-  * --qmake -- Path to qmake for building QCustomPlot static library (default: detected from PyQt5 installation)
-  * --make -- Path to make utility (default: nmake.exe on Windows, make elsewhere)
-  * --qt-include-dir -- Path to Qt's include location (default: detected from PyQt5 installation)
+  - python -m build
+  
+Or to build and install run: pip install .
 
 ## TODO:
   - No debug builds are currently supported
